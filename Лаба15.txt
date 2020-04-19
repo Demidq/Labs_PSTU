@@ -1,0 +1,59 @@
+//15 лабораторная(ХЕШИРОВАНИЕ). ФИО, номер счета(ключ, остаток от деления), сумма.
+#include <iostream>
+#include <string>
+using namespace std;
+struct lc{
+string fio;
+int num;
+int balance;
+lc*p;};
+lc* first;lc* tek;
+
+int main(){
+int c,n,b,t=1;string f;lc*m[10];
+for(int y=0;y!=9;y++){m[y]=new lc;}
+
+cout<<"1. Добавить данные\n2. Вывести данные по номеру счета\n0.Выход\n";
+
+  while (t!=0){
+
+cin>>t;
+
+
+if (t==1){
+
+std::cin.ignore(32767, '\n');
+cout<<"\nВведите ФИО: ";getline(cin,f);cout<<endl;
+cout<<"Введите номер счета: ";cin>>n;cout<<endl
+<<"Введите сумму: ";cin>>b;cout<<endl;
+c=n%10;
+
+
+
+if (m[c]==NULL){
+  m[c]=new lc;
+  tek=m[c];tek->balance=b;tek->num=n;tek->fio=f;
+}
+
+else
+{
+tek=m[c];
+while(tek->p!=NULL){
+  tek=tek->p;
+}
+
+tek->p=new lc;tek=tek->p;
+tek->balance=b;tek->num=n;tek->fio=f;}}
+
+
+if (t==2){
+  cout<<"\nВведите номер счета ";cin>>n;c=n%10;
+tek=m[c];
+while((n!=tek->num)&&(tek!=NULL)){tek=tek->p;}
+cout<<"ФИО: ";cout<<tek->fio<<endl;
+cout<<"Номер счета: ";cout<<tek->num<<endl;
+cout<<"Сумма: ";cout<<tek->balance<<endl;
+
+}
+
+}}
