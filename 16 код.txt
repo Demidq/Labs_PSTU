@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+using namespace std;
+ 
+int main() {
+  int k=0,c=0,f=0;
+  string pr,sl;
+cout<<"Введите символьную последовательность\n";cin>>pr;
+cout<<"Введите слово для поиска\n";cin>>sl;
+k=size(sl)-1;
+while(k<size(pr))
+{f=0;
+ cout<<"+1 шаг\n";
+  //проверяю на идеал
+for(int t=0;t!=size(sl);t++){
+if (sl[size(sl)-t-1]==pr[k-t]) {f++;}
+}
+///////////////////
+if (f==size(sl)){cout<<"Слово найдено, начинается с "<<k-size(sl)+2<<" элемента!";
+  k=size(pr);
+}
+else{
+//Если символы последовательно не равны друг другу:
+for (int t=0;t<size(sl);t++){
+ for(int m=size(sl)-1;m>-1;m--){
+if ((sl[m]==pr[k-t])&&(m!=size(sl)-1)){t=size(sl);c=size(sl)-m-1;m=-1;}
+////////////
+else c=size(sl);
+ }
+
+}}
+
+k=k+c;
+}
+if (f!=size(sl)){cout<<"Такого слова не существует!";}
+}

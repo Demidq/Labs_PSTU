@@ -1,0 +1,32 @@
+//15 лаб.Сортировка стека через STL контейнеры
+//Например, сортировка по убыванию
+#include <iostream>
+#include <stack>
+#include <algorithm>
+#include <vector>
+using namespace std;
+ 
+int main() {
+  stack <int> st;
+  vector <int> vec;
+  int k=0;
+ //заполняю вектор
+  cout << "Введите количество чисел ";cin>>k;cout<<endl;
+  cout << "Задайте числа"<<endl;
+  for (int t=k;t!=0;t--) {
+    int a;
+    cin >> a; 
+    vec.push_back(a);
+  }
+  //сортирую его
+  sort(vec.begin(), vec.end());
+ 
+//завожу его в стэк
+  while(k!=0){
+st.push(vec[k-1]);
+cout<<st.top();
+k--;
+  }
+ 
+  return 0;
+}
