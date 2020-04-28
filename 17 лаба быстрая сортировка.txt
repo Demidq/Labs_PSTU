@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+void sorr(int *per, int *con){
+  int t=0,*f=per;
+  
+while (con!=f){
+  while(per!=con){
+if (*per<*con){per++;}
+else {t=*per;*per=*con;*con=t;per++;}
+}
+con--;
+per=f;}
+}
+
+int main() {
+  int n;
+cout<<"Введите кол-во элементов ";cin>>n;int m[n];
+for (int k=0;k<n;k++){
+m[k]=rand()%10;cout<<m[k]<<" ";
+}
+
+cout<<"\nСортируем массив\n";
+sorr(&m[0],&m[n-1]);
+
+for(int k=0;k!=n;k++){cout<<m[k]<<" ";}
+}

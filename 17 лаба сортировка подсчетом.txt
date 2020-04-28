@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+int main() {
+int i;int *c,t=0,o;
+cout<<"Введите количество элементов ";cin>>i;int m[i];
+cout<<"Введите максимальный используе-мое значение ";cin>>o;
+//заполняем
+cout<<"\nВаш случайный массив:"<<endl;
+for (int k=0;k<i;k++){
+m[k]=rand()%o+1;
+cout<<m[k]<<" ";
+}
+cout<<endl;
+//заполняем ключевой массив нулями
+for(int k=0;k<o+1;k++)
+{c[k]=0;}
+//заполняем ключи
+for(int k=0;k<i;k++){
+c[m[k]]++;
+}
+
+cout<<"Отсортированный массив:"<<endl;
+
+for (int k=0;k<i;k++){
+if(c[t]!=0){
+m[k]=t;c[t]--;cout<<m[k]<<" ";} else {t++;k--;}
+}
+}
