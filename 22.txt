@@ -1,0 +1,27 @@
+//22 Лабораторная. Класс времени. Учесть систему счисления(60). Произвести сравнения и вычитания времени
+#include <iostream>
+using namespace std;
+class Time{
+private:
+int sek,min;
+public:
+void time(){cout<<min<<":"<<sek;}
+
+Time(){sek=0;min=0;}
+
+Time(int s){sek=s;min=sek/60;sek%=60;}
+
+bool operator >= (const Time &other){
+  return
+(this->min)*60+this->sek>=(other.min)*60+other.sek;}
+
+Time operator -(const Time &other){
+Time temp((this->min-other.min)*60+(this->sek-other.sek));
+return temp;
+}};
+/////////
+int main() {
+  Time a(500);Time b(340);
+  if(a>=b){cout<<"Время ";a.time();cout<<" больше либо равно ";b.time();} else {
+cout<<"Время ";a.time();cout<<" меньше ";b.time();}
+Time raz=a-b; cout<<"\nРезультат вычитания = ";raz.time();}

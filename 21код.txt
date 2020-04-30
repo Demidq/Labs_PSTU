@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+class PAIR {
+  public:
+int a,b;
+};
+
+class RD:private PAIR
+{
+  RD(){}
+  public:
+RD (int a,int b){
+  this->a=a;this->b=b;
+cout<<"Площадь прямоугольника = "<<(this->a)*(this->b);
+}};
+
+int main() {
+  int a,b;
+ cout<<"Введите длину ";cin>>a;
+ cout<<"Введите ширину ";cin>>b;
+ RD figura1(a,b);
+}
