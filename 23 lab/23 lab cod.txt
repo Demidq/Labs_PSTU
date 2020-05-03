@@ -1,0 +1,105 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class num{
+private:
+vector <int> v;
+
+public:
+//заполнение случайными
+
+num(){
+  for(int k=0;k<5;k++){
+v.push_back(rand()%10);
+cout<<v[k]<<" ";
+  }
+cout<<endl;
+}
+void operator + (const num&two){
+  cout<<"\nПервый вектор ";
+for (int k=0;k<this->v.size();k++){
+cout<<this->v[k]<<" ";}
+cout<<"\nВторой вектор ";
+for (int k=0;k<two.v.size();k++){
+cout<<two.v[k]<<" ";}
+cout<<"\nИх сумма ";
+for (int k=0;k<this->v.size();k++){
+cout<<this->v[k]+two.v[k]<<" ";}
+cout<<endl;}
+
+void print(){
+for (int k=0;k<this->v.size();k++){
+cout<<this->v[k]<<" ";}
+cout<<endl;
+
+}
+
+
+
+
+
+
+
+
+num*next;
+
+
+};num* first;num* tek;num* pos;num *one;num *two;
+
+int main() {
+  int z=1;
+//создать новый класс с вектором
+cout<<"1.Добавить вектора\n2.Сложить вектора\n3.Вывести вектор по индексу\n4.Вывести следущий вектор\n0.Выход\n";
+while (z!=0){
+cin>>z;
+
+switch(z){
+case 1:{
+if (first==NULL){first=new num;pos=first;}
+else {pos->next=new num;pos=pos->next;}
+tek=first;
+break;
+}
+
+
+case 2:{
+cout<<"Введите индекс первого вектора ";cin>>z;
+tek=first;
+for (int k=1;k<z;k++){
+  tek=tek->next;
+}one=tek;
+
+cout<<"Введите индекс второго вектора ";cin>>z;
+tek=first;
+for (int k=1;k<z;k++){
+  tek=tek->next;
+}two=tek;
+*two+*one;
+
+  break;
+}
+case 3:{
+cout<<"Введите индекс вектора ";cin>>z;tek=first;
+while(z!=1){tek=tek->next;z--;}
+tek->print();
+  break;
+}
+case 4:{
+  if(tek->next!=NULL){cout<<"Следующий вектор равен ";
+tek=tek->next;tek->print();} else {cout<<"Следующего вектора не существует\n";}
+
+  break;
+};
+
+
+
+}
+
+
+
+
+
+
+
+}}
