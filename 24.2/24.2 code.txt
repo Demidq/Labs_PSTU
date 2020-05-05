@@ -1,0 +1,52 @@
+/*Time для работы с временными интервалами. Интервал должен быть представлен в виде двух полей: минуты типа int и секунды типа int. при выводе минуты отделяются от секунд двоеточием*/
+//Работа производится, например, с integer типом
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template <typename T1>
+ class Time{
+   public:
+vector <T1> t;
+
+Time(T1){
+
+}
+~Time(){
+cout<<"Данные очищены";
+t.clear();
+}
+void print(){
+for(int k=0;k<t.size();k++){
+cout<<t[k]/60<<":";
+if ((t[k]%60)<10){cout<<0;}cout<<t[k]%60<<" ";
+}
+cout<<endl<<endl;
+}
+void add(T1 value){
+t.push_back(value);
+}
+void operator [](int j){
+cout<<t[j-1]/60<<":";
+if ((t[j-1]%60)<10){cout<<0;}
+cout<<t[j-1]%60<<endl<<endl;
+}
+
+void operator +(T1 value){
+for (int k=0;k<t.size();k++){
+t[k]+=value;
+}
+
+}
+
+ };
+
+int main() {
+  int k=56;
+  
+ Time <int> b(k);b.add(k);b.add(500);b.add(435);b.add(232);
+b.print();
+cout<<"Введите номер элемента ";cin>>k;b[k];
+cout<<"Добавьте количество секунд ко всем элементам ";cin>>k;b+k;b.print();
+
+}

@@ -1,0 +1,49 @@
+/*Time для работы с временными интервалами. Интервал должен быть представлен в виде двух полей: минуты типа int и секунды типа int. при выводе минуты отделяются от секунд двоеточием*/
+//Работа производится, например, с integer типом
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template <typename T1>
+ class vec{
+   public:
+vector <T1> t;
+
+vec(T1){
+
+}
+~vec(){
+cout<<"Данные очищены";
+t.clear();
+}
+void print(){
+for(int k=0;k<t.size();k++){
+cout<<t[k]<<" ";
+}
+cout<<endl<<endl;
+}
+void add(T1 value){
+t.push_back(value);
+}
+void operator [](int j){
+cout<<t[j-1]<<" "<<endl<<endl;
+}
+
+void operator +(T1 value){
+for (int k=0;k<t.size();k++){
+t[k]+=value;
+}
+
+}
+
+ };
+
+int main() {
+  string k="Spray";
+  int k1;
+ vec <string> b(k);b.add(k);b.add("year");b.add("apple");b.add("Light");
+b.print();
+cout<<"Введите номер элемента ";cin>>k1;b[k1];
+cout<<"Добавьте константу ко всем элементам ";cin>>k;b+k;b.print();
+
+}
