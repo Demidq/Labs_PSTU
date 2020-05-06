@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+/*Задача 3
+//Параметризированный класс – Вектор (см. ЛР № 24 (7к))
+Задание 1: Найти минимальный элемент и добавить его на заданную позицию контейнера
+
+Задание 2: Найти максимальный элемент и удалить его из контейнера
+
+Задание 3: К каждому элементу добавить среднее арифметическое контейнера*/
+template <typename T1>
+ class Time{
+   public:
+vector <T1> t;
+vector <int>::iterator i=t.begin();
+
+Time(T1){
+
+}
+~Time(){
+cout<<"Данные очищены";
+t.clear();
+}
+void print(){
+for(int k=0;k<t.size();k++){
+cout<<t[k]/60<<":";
+if ((t[k]%60)<10){cout<<0;}cout<<t[k]%60<<" ";
+}
+cout<<endl<<endl;
+}
+//поиск мин элемента и добавить его на позицию
+void min(){
+  int min,c;
+
+min=t[0];
+for(int k=1;k<t.size();k++){
+  if (min>t[k]){min=t[k];c=k;}
+  
+}
+t.erase(t.begin() + c);
+cout<<"Введите позицию для минимального элемента ";
+cin>>c;
+t.emplace(t.begin()+c-1, min);
+}
+//Удаление максимального элемента
+void max(){
+int max,c;
+for(int k=0;k<t.size();k++){
+  if (max<t[k]){max=t[k];c=k;}
+}
+t.erase(t.begin()+c);
+cout<<"\nУдалили максимальный элемент\n";
+}
+//добавляем сренее арифм.
+void sr(){
+int c;
+
+for(int k=0;k<t.size();k++){
+c+=t[k];}
+for(int k=0;k<t.size();k++){
+t[k]=c/(t.size());}
+cout<<"\nДобавили среднее арифметическое секунд: "<<c/t.size()<<endl;
+}
+
+void add(T1 value){
+t.push_back(value);
+}
+ };
+
+int main() {
+  int k=56;
+  
+ Time <int> b(k);b.add(k);b.add(500);b.add(435);b.add(232);
+ 
+ b.print();b.min();b.print();b.max();b.print();b.sr();b.print();
+
+
+}

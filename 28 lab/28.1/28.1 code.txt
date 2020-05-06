@@ -1,0 +1,55 @@
+/*ЛР 28
+Задача 1
+Контейнер – двунаправленная очередь
+Тип элементов – double
+Задание 1: Найти минимальный элемент и добавить его на заданную позицию контейнера
+Задание 2: Найти максимальный элемент и удалить его из контейнера
+Задание 3: К каждому элементу добавить среднее арифметическое контейнера*/
+#include <iostream>
+
+using namespace std;
+struct deque{
+double b;
+
+deque* next;deque *pred;
+};deque* first;deque* pos;deque *tek;
+
+void print(){
+tek=first;
+while(tek!=NULL){cout<<tek->b<<" ";tek=tek->next;}
+cout<<endl;
+}
+
+int main() 
+{int min;
+  int c=0;//отвечает за среднее арифметич.
+//Пусть будет 7 элементов, зададим случайные числа
+for(int k=0;k<7;k++){
+if (first==NULL){first=new deque;
+  first->b=rand()%10;tek=first;cout<<tek->b<<" ";c=tek->b;}
+else {pos=tek;tek->next=new deque;tek=tek->next;tek->pred=pos;tek->b=rand()%10;cout<<tek->b<<" ";c+=tek->b;}
+}
+cout<<"\nСреднее арифметическое всех чисел = ";c/=7;cout<<c<<endl;
+//ищем минимальный элемент и добавляем на позицию(например 1ая позиция)
+ tek=first;min=tek->b;
+ while(tek!=NULL){
+   if (min>=tek->b){min=tek->b;pos=tek;}
+   tek=tek->next;
+ } pos->b=first->b;first->b=min;print();
+//ищем максимальный элемент и удаляем его
+tek=first;
+ while(tek!=NULL){
+   if (min<tek->b){min=tek->b;pos=tek;}
+   tek=tek->next;
+ } 
+ cout<<"Удалили максимальный элемент:\n";
+ tek=pos;tek=tek->pred;tek->next=pos->next;tek=tek->next;tek->pred=pos->pred;delete pos;
+ print();
+//Добавляем ко всем элементам среднее арифметическое контейнера:
+tek=first;
+while (tek!=NULL){
+tek->b+=c;tek=tek->next;
+}
+cout<<"Прибавили среднее арифметическое:\n";
+print();
+}

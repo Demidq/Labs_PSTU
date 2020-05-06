@@ -1,0 +1,43 @@
+ /*Лаб 28.2
+Задача 2
+Тип элементов – Time
+*Задание 1: Найти максимальный элемент и добавить его в конец контейнера
+*Задание 2: Найти элемент с заданным ключом и удалить его из контейнера
+*Задание 3: К каждому элементу добавить сумму максимального и минимального элементов контейнера*/
+#include <iostream>
+#include <deque>
+using namespace std;
+deque <int> Time{321,32,45,65,780,560};
+deque<int>::iterator i=Time.begin();
+void print(){
+for (int k=0;k<size(Time);k++){
+cout<<Time[k]/60<<":";if(Time[k]%60<10){cout<<0;}cout<<Time[k]%60<<" ";
+}
+cout<<endl<<endl;
+}
+
+int main(){
+  int max,min;
+  print();
+//находим макс. элемент и добавляем в конец списка
+cout<<"Переместили максимальный элемент в конец:\n";
+for(int k=0;k<size(Time);k++){
+if (Time[k]>max){max=Time[k];i+=k;}
+}Time.push_back(*i);Time.erase(i);
+print();
+//Удаляем элемент с заданным ключом, пусть ключ = 3
+cout<<"Удаляем элемент с ключом [3]:\n";
+i=Time.begin();
+i+=3;Time.erase(i);
+print();
+//К каждому элементу добавить сумму максимального и минимального элементов контейнера
+cout<<"Добавляем сумму:\n";
+min=Time[0];
+for(int k=0;k<size(Time);k++){
+if (Time[k]>min){min=Time[k];}
+}
+for(int k=0;k<size(Time);k++){  
+Time[k]+=min+max;
+}
+print();
+}
