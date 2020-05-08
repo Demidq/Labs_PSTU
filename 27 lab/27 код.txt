@@ -1,0 +1,113 @@
+/*Создать класс Time для работы с временными интервалами.Интервал должен быть представлен в виде двух полей : минуты типа int и секунды типа int.при выводе минуты отделяются от секунд двоеточием.
+Реализовать :
+    вычитание временных интервалов(учесть, что в минуте не может быть более 60 секунд)
+    сравнение временных интервалов(!= )
+    Задание :
+    Удалить все записи не равные заданному значению.
+    Уменьшить все записи с заданным значением на 1 минуту 30 секунд.Значение интервала не должно быть меньше 0 минут 0 секунд.
+    Добавить K записей в начало файла.*/
+
+#include <fstream>
+#include <iostream>
+using namespace std;
+class Time {
+public:
+    int sek;
+    int min;
+    Time* next;
+    Time() { sek = 0; min = 0; }
+    Time(int min, int sek) {
+        this->min += min;
+        if (sek >= 60) { min += sek / 60; this->sek += sek % 60; sek /= 60; }
+        this->sek = sek;
+    }
+
+
+}; Time* first; Time* tek;
+int min, sek;
+string path = "times.txt";
+fstream fs;
+
+void add() {
+    cout << "Введите минуты "; cin >> min;
+    cout << "Введите секунды "; cin >> sek;
+    if (sek >= 60) { min += sek / 60; sek %= 60; }
+    if (first == NULL) {
+        first = new Time(min, sek); tek = first; fs<<"Добавление времени\n" << tek->min << ":";
+        if (sek < 10) { fs << 0; }fs << sek << endl;
+    }
+    else {
+        tek->next = new Time(min, sek); tek = tek->next; fs << tek->min << ":";
+        if (sek < 10) { fs << 0; }fs << sek << endl;
+    }
+}
+void minuc() {
+   
+   fs << tek->min << ":";
+   if (tek->sek < 10) { fs << 0; }fs << tek->sek << endl;
+
+}
+
+void del(int c)
+{
+    fs.close();
+    fs.open("times.txt", ios::out);
+    fs.close();
+    fs.open(path, fstream::in | fstream::out | fstream::app);
+    tek = first;
+    cout << "Данные после удаления:\n";
+    while (tek != NULL) {
+        if (tek->min != c) {
+            fs << tek->min << ":";
+            if (tek->sek < 10) { fs << 0; }fs << tek->sek << endl;
+        }
+        tek = tek->next;
+    }
+
+}
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    int value = 1, min, sek;
+    cout << "1. Добавить записи\n2. Уменьшить все записи на 1:30\n3. Удалить запись по значению минуты\n0. Выход\n";
+    
+    fs.open(path, fstream::in | fstream::out | fstream::app);
+   
+
+        while (value!= 0) {
+            cin >> value;
+            if (value == 1) {
+                add();
+            }
+            if (value == 2) {
+                tek = first;
+                fs << "После уменьшения на 1:30\n";
+                while (tek->next!= NULL) {
+                    if ((tek->min * 60 + tek->sek) >= 90) {
+                        if (tek->sek < 30) { tek->min-=2; tek->sek+=30; minuc(); }
+                        else
+                            tek->min -= 1; tek->sek -= 30; minuc();
+                    }
+                    else minuc();
+                    
+                    tek = tek->next;
+                }
+                cout << "\nВремя уменьшено!\n";
+
+            }
+            if (value == 3) {
+                cout << "Введите нужное значение минут для удаления "; cin >> min;
+                del(min);
+            }
+
+
+
+
+            
+        }
+
+
+
+ 
+}
+
