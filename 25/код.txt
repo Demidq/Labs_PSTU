@@ -1,0 +1,146 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+
+
+class person {
+
+protected:
+	string name;
+	int age;
+public:
+	person() {
+	
+		cout << "Введите имя "; cin >> name;
+		cout << "Введите возраст "; cin >> age;
+	}
+	
+
+};
+
+class programmer :public person
+{
+private:
+
+
+	float money;
+	string job;
+
+public:
+	programmer() {
+		cout << "Назначьте зарплату "; cin >> money;
+		cout << "Укажите должность "; cin >> job;
+	}
+	programmer* next;
+	void print() {
+		cout << "Имя: " << name << "\nВозраст: "<<age << "\nДолжность: " << job << "\nЗарплата: " << money<<endl;
+	}
+
+
+}; programmer* first; programmer* tek;
+vector <programmer> gr;
+
+void addgr() {
+	int k;
+	cout << "Введите количество человек для группы "; cin >> k;
+	gr.push_back(*new programmer);
+	tek = &gr[gr.size() - 1]; k--;
+
+	while (k > 0) {
+		cout << endl;
+		tek->next = new programmer;
+		tek = tek->next;
+		k--;
+	}
+
+}
+void del() {
+	cout << "Введите номер группы для удаления последнего элемента "; int k; cin >> k;
+	tek = &gr[k - 1];
+	while (tek->next->next != NULL) {
+		tek = tek->next;
+	}
+	delete tek->next; tek->next = NULL;
+	
+}
+
+
+void addpers() {
+	cout << endl;
+		int k;
+		cout << "Введите номер группы(начинается с первой) "; cin >> k;
+		if (k > gr.size()) {
+			cout << "Такой группы не существует!! "; cout << endl;
+		}
+		else {
+			tek = &gr[k - 1];
+			while (tek->next != NULL) {
+				tek = tek->next;
+			}
+			tek->next = new programmer;
+			tek = tek->next;
+		}
+	}
+void infog() {
+	cout << "\nВведите номер группы "; int k; cin >> k;
+	tek = &gr[k-1];
+	while (tek->next!= NULL) {
+		cout << endl;
+		tek->print();
+		tek = tek -> next;
+	}
+	tek->print();
+}
+
+
+void infok() {
+	cout << "\nВведите номер группы "; int k; cin >> k;
+	tek = &gr[k - 1];
+	cout << "Введите номер элемента "; cin >> k; k--;
+	while (k != 0) {
+		if (tek == NULL) { k = 0; }
+		else {
+			k--;
+			tek = tek->next;
+		}
+
+	}
+	tek->print();
+
+}
+
+int main() {
+	char c = 'z';
+	setlocale(LC_ALL, "rus");
+	cout << "Введите команду:\nm Создать группу\n+ Добавить в группу\n- Удалить из группы\ns Вывести информацию о группе\nz Вывести информацию об элементе группы\nq Конец работы\n";
+	while (c != 'q') {
+		cout << endl;
+		cin >> c;
+		switch (c) {
+
+		case 'm':
+			addgr();
+			break;
+		case '+':
+			addpers();
+			break;
+		case '-':
+			del();
+			break;
+		case 'z':
+			infok();
+			break;
+		case 's':
+			infog();
+			break;
+		}
+	}
+
+
+
+
+
+
+
+}
