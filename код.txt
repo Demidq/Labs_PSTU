@@ -1,0 +1,85 @@
+#include <glut.h>
+#include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <string>
+
+using namespace std;
+int windh, windw; // window height and width
+int c = 0;
+vector <int> vec{8,4,12,2,6,10,14};
+//Просто рисует число
+void draw(int k) {
+    string t = to_string(k);
+    for (auto c1 = t.begin(); c1 != t.end(); ++c1)
+    {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c1);
+    }
+   
+}
+//область рисования
+void reshape(int wid, int ht)
+{
+ 
+    gluOrtho2D(-wid/2, wid/2, -ht/2, ht/2);
+    windw = wid;
+    windh = ht;
+}
+
+const int w = 100, h = 180; int k1 = 2, w1 = windw;
+
+void redraw(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    //начало откуда рисует
+    glTranslated(0,windh/3, 0);
+    glScalef(0.3f, 0.3f, 0.3f);
+    glColor3d(0, 0, 1);
+    glLineWidth(5);
+    draw(vec[c]);
+     c++; 
+while (c < vec.size()-1) {
+    w1 = windw / (k1 / 2 + 1);
+    glTranslated(0, -h, 0);
+    glPushMatrix();
+    glTranslated(-windw, 0, 0);
+    glTranslated(w1, 0, 0);
+
+   for (int k = 1; k <= k1; k++) {
+        
+        glScalef(1.0f, 1.0f, 1.0f);
+        glColor3d(0, 0, 1);
+        glLineWidth(5);
+        draw(vec[c]);
+      
+        glColor3d(0, 1, 1);
+        
+        c++;
+        glTranslated(w1 , 0, 0);
+        if(k==k1/2){ glTranslated(w1, 0, 0);}
+    }
+   glPopMatrix();
+    k1 *= 2;
+
+ }   
+    glFinish();
+}
+
+
+int main(int argc, char* argv[])
+{ 
+    windw = 1600;
+    windh = 400;
+
+    glutInit(&argc, argv);
+    glutInitWindowSize(windw, windh);
+    glutInitWindowPosition(3, 143);
+    glutInitDisplayMode(GLUT_RGB);
+    (void)glutCreateWindow("30");
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(redraw);
+    glClearColor(0, 0, 0, 1.0f);
+    
+    glutMainLoop();
+    return 0;
+}
