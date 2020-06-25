@@ -1,0 +1,138 @@
+#include <glut.h>
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+int windh, windw; // window height and width
+int c = 0;
+vector <int> vec{1,2,3,4,6,5};
+vector <int> X{ 0,-1000,-1500,300,800,-80};
+vector <int> Y{ 0,-500,-1000,-1300,-500,-600};
+class sv {
+    
+public:
+    int mass[6]{ 0,0,0,0,0,0 };
+    sv(int k1,int c1,int k2,int c2,int k3,int c3){
+        mass[k1] = c1;
+        mass[k2] = c2;
+        mass[k3] = c3;
+
+    }
+};
+vector <sv> way;
+
+//Просто рисует число и окружность
+void draw(int k,int x,int y) {
+   
+    glPushMatrix();
+    glTranslated(x, y,0);
+    glutWireSphere(150, 20, 10);
+    glTranslated(-70, -40, 0.0);
+    string t = to_string(k);
+    for (auto c1 = t.begin(); c1 != t.end(); ++c1)
+    {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c1);
+    }
+    glPopMatrix();
+}
+
+void drawnum(int c,int x,int y){
+    glPushMatrix();
+    glTranslated(x, y, 0);
+    
+    string t = to_string(c);
+    for (auto c1 = t.begin(); c1 != t.end(); ++c1)
+    {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c1);
+    }
+    glPopMatrix();
+}
+
+//риусую линию
+void drawline(int x,int y,int x1,int y1) {
+    glBegin(GL_LINES);
+    if ((x > x1) && (y > y1)) { glVertex3f(x - 150, y, 0); glVertex3f(x1+150, y1 , 0); }
+    if ((x > x1) && (y < y1)) { glVertex3f(x, y + 150, 0); ; glVertex3f(x1 + 150, y1, 0); }
+    if ((x < x1) && (y > y1)) { glVertex3f(x + 150, y, 0); ; glVertex3f(x1, y1 + 150, 0); }
+    if ((x < x1) && (y < y1)) { glVertex3f(x + 150, y, 0); ; glVertex3f(x1, y1 - 150, 0); }
+    glEnd();
+}
+
+//область рисования
+void reshape(int wid, int ht)
+{
+    gluOrtho2D(-wid/2, wid/2, -ht/2, ht/2);
+    windw = wid;
+    windh = ht;   
+}
+
+
+void redraw(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    //начало откуда рисует
+    glTranslated(0,windh/3, 0);
+    glScalef(0.3f, 0.3f, 0.3f);
+    glColor3d(0, 0.1, 1);
+    glLineWidth(5);
+    for (int k = 0; k < vec.size(); k++) {
+        draw(vec[k],X[k],Y[k]);
+    }
+    for (int k = 0; k < vec.size()-1; k++) {
+        drawline(X[k],Y[k],X[k+1],Y[k+1]);
+
+    }
+    drawline(X[4], Y[4], X[0], Y[0]);
+    drawline(X[5], Y[5], X[1], Y[1]);
+    drawline(X[3], Y[3], X[5], Y[5]);
+    glPopMatrix();
+    glLineWidth(2); glColor3d(0, 1, 1);
+    drawnum(8, -600,-200 );drawnum(12, -1400, -700);drawnum(11, 500, -170);
+    drawnum(10, -400, -400); drawnum(6, 320, -450); drawnum(9, 700, -1000);
+    drawnum(16, -750, -1000); drawnum(5, 80, -1000);
+    glFinish();
+}
+
+
+int main(int argc, char* argv[])
+{ 
+    setlocale(LC_ALL, "rus");
+    windw = 1000;
+    windh = 600;
+    way.push_back(*new sv(1, 8, 5, 11, 0, 0));
+    way.push_back(*new sv(0, 8, 4, 10, 2, 12));
+    way.push_back(*new sv(1, 12, 3, 16, 0, 0));
+    way.push_back(*new sv(2, 16, 4, 5, 5, 9));
+    way.push_back(*new sv(1, 10, 3, 5, 5, 6));
+    way.push_back(*new sv(3, 9, 0, 11, 4, 6));
+    cout << way[3].mass[0]<<endl;
+
+    for (int k = 1; k < 6; k++) {
+        for (int k1 = 0; k1 < 6; k1++) {
+            if ((way[k].mass[k1] != 0) &&(way[0].mass[k1]!=0)&& ((way[0].mass[k]+way[k].mass[k1]) <  way[0].mass[k1])) {
+                way[0].mass[k1] = way[k].mass[k1]+way[0].mass[k];
+            }
+            
+            if ((way[k].mass[k1] != 0) && (way[0].mass[k1] == 0)) { way[0].mass[k1] = way[k].mass[k1]+way[0].mass[k]; }
+        }
+
+    }
+
+    glutInit(&argc, argv);
+    glutInitWindowSize(windw, windh);
+    glutInitWindowPosition(0, 0);
+    glutInitDisplayMode(GLUT_RGB);
+    (void)glutCreateWindow("31");
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(redraw);
+
+    glClearColor(0, 0, 0, 1.0f);
+    cout << "От точки 1 наименьшие пути:\n";
+    for (int k = 1; k < 6; k++) {
+        cout << "До точки " << k + 1 << " = " << way[0].mass[k] << endl;
+
+    }
+    glutMainLoop();
+    return 0;
+}
