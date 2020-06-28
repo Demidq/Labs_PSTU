@@ -1,0 +1,129 @@
+#include "MyForm.h"
+#include <vector>
+#include <string>
+#include <msclr\marshal_cppstd.h>
+
+
+using namespace cl;
+using namespace std;
+
+Double num;
+
+
+vector <float> vec{ 0,1,1 };
+
+void main() {
+	Application::EnableVisualStyles();
+	Application::SetCompatibleTextRenderingDefault(false);
+	Application::Run(gcnew MyForm);
+
+}
+using namespace System;
+System::Void cl::MyForm::textBox1_KeyPress(System::Object^ sender, System::Windows::Forms::KeyPressEventArgs^ e)
+{
+	char number = e->KeyChar;
+
+	if ((e->KeyChar <= 47 || e->KeyChar > 58)&& (e->KeyChar <= 39 || e->KeyChar > 46) && number != 47 && number!=8) //калькулятор
+
+	{
+		e->Handled = true;
+	}
+
+	
+}
+
+System::Void cl::MyForm::button1_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	int c = 0;
+	vec[1] = 1; vec[2] = 1;
+	String^ dl = textBox1->Text;
+	
+	string stroka = msclr::interop::marshal_as<string>(dl);
+	string res;
+	
+	//Вычисляем сложение и вычитание
+	for (int k = 0; k < stroka.size(); k++) {
+		////
+		if (k == stroka.size() - 1) {  res.push_back(stroka[k]); 
+		/////
+		if (c == 1) { vec[1] *= stof(res); c=0; res = ""; }else
+			if(c==2){ vec[2] *= stof(res); c = 0; res = ""; }
+		else
+			vec[0] += stof(res); 
+		}
+		
+		
+		//когда вижу знак плюс
+
+
+
+		if (stroka[k] == '+') {
+			if (c == 1) { vec[1] *= stof(res); c=0; res = ""; }
+			else if(c==2){ vec[2] *= stof(res); c = 0; res = ""; }
+				else {vec[0] += stof(res); res = ""; }
+			
+		}
+		else
+			
+			//Когда вижу знак минус
+
+
+
+			if ((stroka[k] == '-') && (k != 0)) {
+
+				if (c == 1) { vec[1] *= stof(res); c = 0; res = ""; res.push_back(stroka[k]); }
+				else 
+					if (c == 2) { vec[2] *= stof(res); c = 0; res = ""; res.push_back(stroka[k]); }
+				else
+				{
+					vec[0] += stof(res); res = ""; res.push_back(stroka[k]);
+			}
+		
+		
+		}
+			else
+				//Умножение и деление
+			
+				
+
+
+
+				if (stroka[k] == '*') {
+				if (c == 0) { vec[1] /= vec[2]; vec[0] += vec[1]; vec[2] = 1; vec[1] = 1; }
+					if (c == 2) {
+						vec[2] *= stof(res); res = ""; c = 1;
+					}
+					else
+					{
+						vec[1] *= stof(res); res = ""; c = 1;
+					}
+
+				}
+				
+				else
+					if (stroka[k] == '/') {
+					if (c == 0) { vec[1] /= vec[2]; vec[0] += vec[1]; vec[2] = 1; vec[1] = 1; }
+						if (c == 1) { vec[1] *= stof(res); res = ""; c = 2; }
+						else { vec[1] *= stof(res); res = ""; c = 2; }
+				}
+
+		else 
+			res.push_back(stroka[k]);
+		
+
+	}
+	////
+	vec[1] /= vec[2];
+	vec[0] += vec[1]-1;
+	vec[1] = 0;
+	vec[2] = 0;
+	
+	textBox2->Text = Convert::ToString(vec[0]);
+	vec[0] = 0;
+}
+
+
+System::Void cl::MyForm::button2_Click(System::Object^ sender, System::EventArgs^ e)
+{
+	textBox1->Text = ""; textBox2->Text = "";
+}
